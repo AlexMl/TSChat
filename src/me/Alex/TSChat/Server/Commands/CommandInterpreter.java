@@ -11,8 +11,12 @@ public class CommandInterpreter {
     
     private static ArrayList<IChatCommand> commands = new ArrayList<IChatCommand>();
     
+    private static IChatCommand helpCommand;
+    
     public CommandInterpreter() {
+	helpCommand = new HelpCommand();
 	
+	commands.add(helpCommand);
 	commands.add(new KickCommand());
 	commands.add(new KickallCommand());
 	commands.add(new NickCommand());
@@ -53,6 +57,7 @@ public class CommandInterpreter {
 		    }
 		}
 	    }
+	    return helpCommand;
 	}
 	return null;
     }
