@@ -75,8 +75,14 @@ public class Server {
 	return null;
     }
     
-    public static ArrayList<ClientConnection> getConnections() {
-	return connections;
+    public static ClientConnection[] getConnections() {
+	
+	ClientConnection[] connArray = new ClientConnection[connections.size()];
+	
+	for (ClientConnection connection : connections) {
+	    connArray[connections.indexOf(connection)] = connection;
+	}
+	return connArray;
     }
     
     public static void setNick(ClientConnection conn, String nickName) {
@@ -106,9 +112,9 @@ public class Server {
     
     public static boolean authenticate(ClientConnection conn, String pass) {
 	
-	if (pass.equals(authString)) {	    
+	if (pass.equals(authString)) {
 	    conn.setAuthenticated(true);
-	    return true;	    
+	    return true;
 	}
 	return false;
     }
