@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -48,6 +49,7 @@ public class ClientConnection implements Runnable {
 	try {
 	    
 	    while (this.running) {
+		
 		String message = this.reader.readLine();
 		if (message != null) {
 		    System.out.println("Empfangen[" + new SimpleDateFormat("dd.MM-HH:mm:ss").format((new Date())) + "]: " + message + " von " + getSocket().getInetAddress().toString() + " (" + this.nickName + ")");
@@ -75,12 +77,14 @@ public class ClientConnection implements Runnable {
 		    }
 		} else {
 		    // Connection reset by partner
-		    Server.disconnect(getNickName());
+		    Server.disconnect(this);
 		}
 	    }
-	} catch (Exception e) {
+	} catch (SocketException e) {
+	    System.err.println(e.getMessage());
+	} catch (IOException e) {
 	    e.printStackTrace();
-	    Server.disconnect(getNickName());
+	    Server.disconnect(this);
 	}
     }
     
@@ -120,10 +124,12 @@ public class ClientConnection implements Runnable {
 	    
 	    this.writer.close();
 	    this.reader.close();
-	    System.out.println(getSocket() + " stoped!");
 	    getSocket().close();
-	    Server.sendMessage(getNickName() + " has disconnected!", this);
-	} catch (Exception e) {
+	    System.out.println(getSocket() + " stoped!");
+	    Server.broadcast(getNickName() + " has disconnected!");
+	} catch (SocketException e) {
+	    System.err.println(e.getMessage());
+	} catch (IOException e) {
 	    e.printStackTrace();
 	}
     }

@@ -59,7 +59,7 @@ public class Server {
     
     public static void stop() throws IOException {
 	
-	for (ClientConnection connection : connections) {
+	for (ClientConnection connection : getConnections()) {
 	    disconnect(connection);
 	}
 	connections.clear();
@@ -67,7 +67,7 @@ public class Server {
     }
     
     private static ClientConnection getConnection(String nick) {
-	for (ClientConnection connection : connections) {
+	for (ClientConnection connection : getConnections()) {
 	    if (connection.getNickName().equals(nick)) {
 		return connection;
 	    }
@@ -91,9 +91,9 @@ public class Server {
     
     public static void sendMessage(String message, ClientConnection sender) {
 	
-	for (ClientConnection connection : connections) {
+	for (ClientConnection connection : getConnections()) {
 	    if (!connection.equals(sender)) {
-		System.out.println(message + " SendTo " + connection.getNickName());
+		// System.out.println(message + " SendTo " + connection.getNickName());
 		String nick = sender.isAuthenticated() ? sender.getNickName() + "[Admin]" : sender.getNickName();
 		connection.sendToClient(nick + ": " + message);
 	    }
@@ -105,7 +105,7 @@ public class Server {
     }
     
     public static void broadcast(String message) {
-	for (ClientConnection connection : connections) {
+	for (ClientConnection connection : getConnections()) {
 	    connection.sendToClient("[Server] " + message);
 	}
     }
@@ -119,17 +119,21 @@ public class Server {
 	return false;
     }
     
-    public static void disconnect(String nickName) {
+    public static boolean disconnect(String nickName) {
 	
 	ClientConnection conn = getConnection(nickName);
 	if (conn != null) {
 	    disconnect(conn);
+	    return true;
 	}
+	return false;
     }
     
     public static void disconnect(ClientConnection connection) {
-	System.out.println("Will disconnect " + connection.getNickName());
-	connection.stop();
+	if (!connection.getSocket().isClosed()) {
+	    System.out.println("Will disconnect " + connection.getNickName());
+	    connection.stop();
+	}
 	connections.remove(connection);
     }
     
