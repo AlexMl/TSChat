@@ -28,7 +28,7 @@ public class Server {
 	    instance = this;
 	    server = new ServerSocket(port);
 	    new CommandInterpreter();
-	    authString = UUID.randomUUID().toString().substring(3, UUID.randomUUID().toString().length() / 4 + 3);
+	    authString = UUID.randomUUID().toString().substring(4, UUID.randomUUID().toString().length() / 4 + 4);
 	    
 	    start();
 	    System.out.println("Server gestartet! Admin pass: " + authString);
