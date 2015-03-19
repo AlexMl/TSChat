@@ -61,4 +61,13 @@ public class CommandInterpreter {
 	}
 	return null;
     }
+    
+    public static IChatCommand[] getCommands() {
+	IChatCommand[] commandArray = new IChatCommand[commands.size()];
+	
+	for (IChatCommand command : commands) {
+	    commandArray[commands.indexOf(command)] = command;
+	}
+	return commandArray;
+    }
 }
