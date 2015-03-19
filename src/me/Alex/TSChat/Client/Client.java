@@ -61,7 +61,6 @@ public class Client implements Runnable {
 	while (scann.hasNext() && this.running) {
 	    String message = scann.nextLine();
 	    if (!message.isEmpty()) {
-		System.out.println("M:" + message);
 		sendMessage(message);
 	    }
 	}
