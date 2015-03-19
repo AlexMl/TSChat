@@ -32,7 +32,7 @@ public class HelpCommand implements IChatCommand {
 	builder.append("-------- Available Commands ---------\n");
 	
 	for (IChatCommand command : CommandInterpreter.getCommands()) {
-	    builder.append(command.getCommand() + ", ");
+	    builder.append("/" + command.getCommand() + ", ");
 	}
 	
 	builder.replace(builder.length() - 2, builder.length(), "");
