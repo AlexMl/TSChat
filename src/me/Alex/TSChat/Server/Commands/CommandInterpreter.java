@@ -57,6 +57,7 @@ public class CommandInterpreter {
 		    }
 		}
 	    }
+	    helpCommand.execute(executor, args);
 	    return helpCommand;
 	}
 	return null;
