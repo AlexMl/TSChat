@@ -1,5 +1,6 @@
 package me.Alex.TSChat.Server.Commands;
 
+import me.Alex.TSChat.Server.ClientConnection;
 import me.Alex.TSChat.Server.Server;
 
 
@@ -24,16 +25,14 @@ public class NickCommand implements IChatCommand {
     }
     
     @Override
-    public boolean execute(String executorNick, String... args) {
+    public boolean execute(ClientConnection executor, String... args) {
 	if (args.length == 1) {
 	    
-	    String newNick = args[0];
-	    boolean success = Server.setNick(executorNick, newNick);
-	    if (success) {
-		Server.sendMessageToNick(newNick, "Nick changed to " + newNick);
-	    } else {
-		Server.sendMessageToNick(executorNick, "Nickchange error!");
-	    }
+	    String nickName = args[0];
+	    String oldNick = executor.getNickName();
+	    Server.setNick(executor, nickName);
+	    Server.sendMessageToClient(executor, "Nick changed to " + nickName);
+	    Server.sendMessage(oldNick + " ist jetz als " + nickName + " bekannt!", executor);
 	    return true;
 	}
 	return false;

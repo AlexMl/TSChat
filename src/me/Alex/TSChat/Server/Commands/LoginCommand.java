@@ -1,5 +1,6 @@
 package me.Alex.TSChat.Server.Commands;
 
+import me.Alex.TSChat.Server.ClientConnection;
 import me.Alex.TSChat.Server.Server;
 
 
@@ -24,16 +25,16 @@ public class LoginCommand implements IChatCommand {
     }
     
     @Override
-    public boolean execute(String executorNick, String... args) {
+    public boolean execute(ClientConnection executor, String... args) {
 	
 	if (args.length == 1) {
 	    String pass = args[0];
-	    boolean success = Server.authenticate(executorNick, pass);
+	    boolean success = Server.authenticate(executor, pass);
 	    
 	    if (success) {
-		Server.sendMessageToNick(executorNick, "Du bist jetzt als Admin angemeldet!");
+		Server.sendMessageToClient(executor, "Du bist jetzt als Admin angemeldet!");
 	    } else {
-		Server.sendMessageToNick(executorNick, "Die angegebene Passphrase ist falsch!");
+		Server.sendMessageToClient(executor, "Die angegebene Passphrase ist falsch!");
 	    }
 	    
 	    return true;

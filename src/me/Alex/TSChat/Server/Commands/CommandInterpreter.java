@@ -3,6 +3,7 @@ package me.Alex.TSChat.Server.Commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.Alex.TSChat.Server.ClientConnection;
 import me.Alex.TSChat.Server.Server;
 
 
@@ -18,7 +19,7 @@ public class CommandInterpreter {
 	commands.add(new LoginCommand());
     }
     
-    public static IChatCommand execute(String executorNick, String message) {
+    public static IChatCommand execute(ClientConnection executor, String message) {
 	
 	if (message.startsWith("/")) {
 	    
@@ -39,15 +40,15 @@ public class CommandInterpreter {
 		System.out.println(command.getCommand() + ":" + commandString);
 		if (command.getCommand().equalsIgnoreCase(commandString)) {
 		    if (command.getPermission().contains("admin")) {
-			if (Server.isAuthenticated(executorNick)) {
-			    command.execute(executorNick, args);
+			if (Server.isAuthenticated(executor)) {
+			    command.execute(executor, args);
 			    return command;
 			} else {
-			    Server.sendMessageToNick(executorNick, "Du hast nicht die nötigen Rechte!");
+			    Server.sendMessageToClient(executor, "Du hast nicht die nötigen Rechte!");
 			    return command;
 			}
 		    } else {
-			command.execute(executorNick, args);
+			command.execute(executor, args);
 			return command;
 		    }
 		}
