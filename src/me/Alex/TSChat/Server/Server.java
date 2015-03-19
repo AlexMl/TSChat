@@ -64,7 +64,7 @@ public class Server {
     public static void stop() throws IOException {
 	
 	for (ClientConnection connection : connections) {
-	    connection.stop();
+	    disconnect(connection);
 	}
 	connections.clear();
 	server.close();
@@ -125,24 +125,18 @@ public class Server {
 	return false;
     }
     
-    public static void disconnectAll() {
-	System.out.println(connections.size());
-	for (ClientConnection connection : connections) {
-	    System.out.println("Will disconnect " + connection.getNickName());
-	    connection.stop();
-	}
-	connections.clear();
-    }
-    
     public static void disconnect(String nickName) {
 	
 	ClientConnection conn = getConnection(nickName);
 	if (conn != null) {
-	    System.out.println("Will disconnect " + nickName);
-	    conn.stop();
-	    connections.remove(conn);
+	    disconnect(conn);
 	}
-	
+    }
+    
+    private static void disconnect(ClientConnection connection) {
+	System.out.println("Will disconnect " + connection.getNickName());
+	connection.stop();
+	connections.remove(connection);
     }
     
     public static boolean isAuthenticated(String nickName) {
