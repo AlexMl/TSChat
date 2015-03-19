@@ -92,18 +92,23 @@ public class Server {
 	
 	for (ClientConnection connection : connections) {
 	    if (!connection.equals(sender)) {
-		System.out.println(message + " SendTo " + connection.getSocket().getInetAddress().toString());
+		System.out.println(message + " SendTo " + connection.getNickName());
 		String nick = sender.isAuthenticated() ? sender.getNickName() + "[Admin]" : sender.getNickName();
 		connection.sendToClient(nick + ": " + message);
 	    }
 	}
     }
     
-    public static void sendMessage(String nickName, String message) {
+    public static void sendMessageToNick(String nickName, String message) {
 	ClientConnection conn = getConnection(nickName);
 	if (conn != null) {
-	    System.out.println("nachricht");
 	    conn.sendToClient(message);
+	}
+    }
+    
+    public static void broadcast(String message) {
+	for (ClientConnection connection : connections) {
+	    connection.sendToClient("[Server] " + message);
 	}
     }
     
@@ -184,6 +189,7 @@ public class Server {
 		while (this.running) {
 		    String message = this.reader.readLine();
 		    if (message != null) {
+			System.out.println("Empfangen[" + new SimpleDateFormat("dd.MM-HH:mm:ss").format((new Date())) + "]: " + message + " von " + getSocket().getInetAddress().toString() + " (" + this.nickName + ")");
 			
 			if (message.startsWith("_u")) {
 			    
@@ -206,7 +212,6 @@ public class Server {
 				// System.out.println(command.getCommand());
 			    }
 			}
-			System.out.println("Empfangen[" + new SimpleDateFormat("dd.MM-HH:mm:ss").format((new Date())) + "]: " + message + " von " + getSocket().getInetAddress().toString() + " (" + this.nickName + ")");
 		    } else {
 			// Connection reset by partner
 			disconnect(getNickName());
@@ -221,7 +226,6 @@ public class Server {
 	public void sendToClient(String message) {
 	    this.writer.println(message);
 	    this.writer.flush();
-	    System.out.println("nachricht");
 	}
 	
 	public void setAuthenticated(boolean auth) {
