@@ -31,9 +31,9 @@ public class LoginCommand implements IChatCommand {
 	    boolean success = Server.authenticate(executorNick, pass);
 	    
 	    if (success) {
-		Server.sendMessage(executorNick, "Du bist jetzt als Admin angemeldet!");
+		Server.sendMessageToNick(executorNick, "Du bist jetzt als Admin angemeldet!");
 	    } else {
-		Server.sendMessage(executorNick, "Die angegebene Passphrase ist falsch!");
+		Server.sendMessageToNick(executorNick, "Die angegebene Passphrase ist falsch!");
 	    }
 	    
 	    return true;

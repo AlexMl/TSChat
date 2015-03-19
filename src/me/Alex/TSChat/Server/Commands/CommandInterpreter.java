@@ -43,7 +43,7 @@ public class CommandInterpreter {
 			    command.execute(executorNick, args);
 			    return command;
 			} else {
-			    Server.sendMessage(executorNick, "Du hast nicht die nötigen Rechte!");
+			    Server.sendMessageToNick(executorNick, "Du hast nicht die nötigen Rechte!");
 			    return command;
 			}
 		    } else {

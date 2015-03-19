@@ -28,7 +28,7 @@ public class KickCommand implements IChatCommand {
 	if (args.length == 1) {
 	    String nick = args[0];
 	    Server.disconnect(nick);
-	    Server.sendMessage(executorNick, "Du hast " + nick + " gekickt!");
+	    Server.sendMessageToNick(executorNick, "Du hast " + nick + " gekickt!");
 	    return true;
 	}
 	return false;

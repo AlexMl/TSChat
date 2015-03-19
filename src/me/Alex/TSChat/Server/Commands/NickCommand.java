@@ -9,18 +9,18 @@ public class NickCommand implements IChatCommand {
     private String permission;
     
     public NickCommand() {
-	name = "nick";
-	permission = "";
+	this.name = "nick";
+	this.permission = "";
     }
     
     @Override
     public String getCommand() {
-	return name;
+	return this.name;
     }
     
     @Override
     public String getPermission() {
-	return permission;
+	return this.permission;
     }
     
     @Override
@@ -30,9 +30,9 @@ public class NickCommand implements IChatCommand {
 	    String newNick = args[0];
 	    boolean success = Server.setNick(executorNick, newNick);
 	    if (success) {
-		Server.sendMessage(newNick, "Nick changed to " + newNick);
+		Server.sendMessageToNick(newNick, "Nick changed to " + newNick);
 	    } else {
-		Server.sendMessage(executorNick, "Nickchange error!");
+		Server.sendMessageToNick(executorNick, "Nickchange error!");
 	    }
 	    return true;
 	}
