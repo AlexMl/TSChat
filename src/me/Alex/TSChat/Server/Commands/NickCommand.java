@@ -32,7 +32,7 @@ public class NickCommand implements IChatCommand {
 	    String oldNick = executor.getNickName();
 	    Server.setNick(executor, nickName);
 	    Server.sendMessageToClient(executor, "Nick changed to " + nickName);
-	    Server.sendMessage(oldNick + " ist jetz als " + nickName + " bekannt!", executor);
+	    Server.broadcast(oldNick + " ist jetz als " + nickName + " bekannt!");
 	    return true;
 	}
 	return false;
