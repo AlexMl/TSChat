@@ -55,13 +55,13 @@ public class TSChatGUI {
 	this.frame.getContentPane().setLayout(null);
 	
 	this.btnSendButton = new JButton("Senden");
-	this.btnSendButton.setSize(100, buttonHeight);
-	this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (this.btnSendButton.getHeight() + margin)));
+	// this.btnSendButton.setSize(100, buttonHeight);
+	// this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (this.btnSendButton.getHeight() + margin)));
 	this.frame.getContentPane().add(this.btnSendButton);
 	
 	this.textField = new JTextField();
-	this.textField.setSize(this.frame.getWidth() - (this.btnSendButton.getWidth() + 3 * margin), buttonHeight);
-	this.textField.setLocation(margin, (this.frame.getHeight() - (this.textField.getHeight() + margin)));
+	// this.textField.setSize(this.frame.getWidth() - (this.btnSendButton.getWidth() + 3 * margin), buttonHeight);
+	// this.textField.setLocation(margin, (this.frame.getHeight() - (this.textField.getHeight() + margin)));
 	this.frame.getContentPane().add(this.textField);
 	
 	/*	JList<String> list = new JList<String>();
@@ -71,16 +71,25 @@ public class TSChatGUI {
 	
 	this.textArea = new JTextArea();
 	this.textArea.setEditable(false);
-	this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
-	this.textArea.setLocation(margin, margin);
+	// this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
+	// this.textArea.setLocation(margin, margin);
 	this.frame.getContentPane().add(this.textArea);
+	
+	resize();
 	
 	System.out.println(this.btnSendButton.getLocation());
 	System.out.println(this.frame.getBounds());
     }
     
     private void resize() {
+	this.btnSendButton.setSize(100, buttonHeight);
+	this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (buttonHeight + margin)));
 	
-	this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (this.btnSendButton.getHeight() + margin)));
+	this.textField.setSize(this.frame.getWidth() - (this.btnSendButton.getWidth() + 3 * margin), buttonHeight);
+	this.textField.setLocation(margin, (this.frame.getHeight() - (this.textField.getHeight() + margin)));
+	
+	this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
+	this.textArea.setLocation(margin, margin);
+	
     }
 }
