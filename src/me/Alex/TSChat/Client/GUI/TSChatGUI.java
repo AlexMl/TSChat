@@ -2,9 +2,14 @@ package me.Alex.TSChat.Client.GUI;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -53,8 +58,10 @@ public class TSChatGUI {
 	this.frame.setMinimumSize(new Dimension(600, 500));
 	this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.frame.getContentPane().setLayout(null);
+	this.frame.addComponentListener(new GUIListener());
 	
 	this.btnSendButton = new JButton("Senden");
+	this.btnSendButton.addActionListener(new GUIListener());
 	// this.btnSendButton.setSize(100, buttonHeight);
 	// this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (this.btnSendButton.getHeight() + margin)));
 	this.frame.getContentPane().add(this.btnSendButton);
@@ -90,6 +97,43 @@ public class TSChatGUI {
 	
 	this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
 	this.textArea.setLocation(margin, margin);
+	
+    }
+    
+    private class GUIListener implements ActionListener, ComponentListener {
+	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+	    
+	    if (event.getSource() instanceof JButton) {
+		if (event.getActionCommand().equalsIgnoreCase(TSChatGUI.this.btnSendButton.getText())) {
+		    if (!TSChatGUI.this.textField.getText().isEmpty()) {
+			// TODO Sende an server
+		    } else {
+			JOptionPane.showMessageDialog(null, "Du kannst keine leeren Nachrichten senden!");
+		    }
+		    
+		}
+	    }
+	    
+	}
+	
+	@Override
+	public void componentResized(ComponentEvent e) {
+	    resize();
+	}
+	
+	@Override
+	public void componentMoved(ComponentEvent e) {
+	}
+	
+	@Override
+	public void componentShown(ComponentEvent e) {
+	}
+	
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
 	
     }
 }
