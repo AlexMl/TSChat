@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -73,6 +75,7 @@ public class TSChatGUI {
 	this.frame.getContentPane().add(this.btnSendButton);
 	
 	this.textField = new JTextField();
+	this.textField.addKeyListener(new GUIListener());
 	// this.textField.setSize(this.frame.getWidth() - (this.btnSendButton.getWidth() + 3 * margin), buttonHeight);
 	// this.textField.setLocation(margin, (this.frame.getHeight() - (this.textField.getHeight() + margin)));
 	this.frame.getContentPane().add(this.textField);
@@ -100,10 +103,23 @@ public class TSChatGUI {
 	
 	this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
 	this.textArea.setLocation(margin, margin);
-	
     }
     
-    private class GUIListener implements ActionListener, ComponentListener {
+    private Client getClient() {
+	return this.client;
+    }
+    
+    public void sendMessage(String message) {
+	getClient().sendMessage(TSChatGUI.this.textField.getText());
+	addMessage(TSChatGUI.this.textField.getText());
+	TSChatGUI.this.textField.setText("");
+    }
+    
+    public void addMessage(String message) {
+	this.textArea.append(message + "\n");
+    }
+    
+    private class GUIListener implements ActionListener, ComponentListener, KeyListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -111,7 +127,7 @@ public class TSChatGUI {
 	    if (event.getSource() instanceof JButton) {
 		if (event.getActionCommand().equalsIgnoreCase(TSChatGUI.this.btnSendButton.getText())) {
 		    if (!TSChatGUI.this.textField.getText().isEmpty()) {
-			// TODO Sende an server
+			sendMessage(TSChatGUI.this.textField.getText());
 		    } else {
 			JOptionPane.showMessageDialog(null, "Du kannst keine leeren Nachrichten senden!");
 		    }
@@ -136,6 +152,25 @@ public class TSChatGUI {
 	
 	@Override
 	public void componentHidden(ComponentEvent e) {
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+	    if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+		if (!TSChatGUI.this.textField.getText().isEmpty()) {
+		    sendMessage(TSChatGUI.this.textField.getText());
+		} else {
+		    JOptionPane.showMessageDialog(null, "Du kannst keine leeren Nachrichten senden!");
+		}
+	    }
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 	
     }

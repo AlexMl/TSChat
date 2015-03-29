@@ -72,7 +72,7 @@ public class Client implements Runnable {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	
+	getGUI().addMessage("Du bist verbunden und kannst nun schreiben!");
 	System.out.println("Du bist verbunden und kannst nun schreiben!");
 	System.out.print("Eingabe: ");
 	
@@ -91,6 +91,10 @@ public class Client implements Runnable {
     
     public int getPort() {
 	return this.port;
+    }
+    
+    public TSChatGUI getGUI() {
+	return this.gui;
     }
     
     public void stop() {
@@ -135,6 +139,7 @@ public class Client implements Runnable {
 			}
 			
 		    } else {
+			getGUI().addMessage(message);
 			System.out.println(message);
 		    }
 		} else {
