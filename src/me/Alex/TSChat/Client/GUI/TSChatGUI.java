@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import me.Alex.TSChat.Client.Client;
+
 
 public class TSChatGUI {
     
@@ -20,6 +22,8 @@ public class TSChatGUI {
     private JTextField textField;
     private JTextArea textArea;
     private JButton btnSendButton;
+    
+    private Client client;
     
     private static final int margin = 15;
     private static final int buttonHeight = 40;
@@ -33,7 +37,7 @@ public class TSChatGUI {
 	    @Override
 	    public void run() {
 		try {
-		    TSChatGUI window = new TSChatGUI();
+		    TSChatGUI window = new TSChatGUI(null);
 		    window.frame.setVisible(true);
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -45,8 +49,10 @@ public class TSChatGUI {
     /**
      * Create the application.
      */
-    public TSChatGUI() {
+    public TSChatGUI(Client client) {
+	this.client = client;
 	initialize();
+	this.frame.setVisible(true);
     }
     
     /**

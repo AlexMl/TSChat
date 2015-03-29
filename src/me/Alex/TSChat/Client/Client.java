@@ -1,5 +1,6 @@
 package me.Alex.TSChat.Client;
 
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +9,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+
+import me.Alex.TSChat.Client.GUI.TSChatGUI;
 
 
 public class Client implements Runnable {
@@ -23,6 +26,8 @@ public class Client implements Runnable {
     private PrintWriter writer;
     private Thread thread;
     
+    private TSChatGUI gui;
+    
     private boolean running;
     
     private static Scanner scann;
@@ -36,6 +41,19 @@ public class Client implements Runnable {
     }
     
     public Client(String ip, int port) {
+	
+	EventQueue.invokeLater(new Runnable() {
+	    
+	    @Override
+	    public void run() {
+		try {
+		    Client.this.gui = new TSChatGUI(Client.this);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	    }
+	});
+	
 	System.out.print("\n");
 	System.out.print("Dein Nickname: ");
 	this.nickName = scann.next();
