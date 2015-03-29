@@ -83,9 +83,6 @@ public class TSChatGUI {
 	this.frame.getContentPane().add(this.textArea);
 	
 	resize();
-	
-	System.out.println(this.btnSendButton.getLocation());
-	System.out.println(this.frame.getBounds());
     }
     
     private void resize() {
