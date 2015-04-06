@@ -8,6 +8,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +29,8 @@ public class TSChatGUI {
     
     private Client client;
     
+    private boolean active;
+    
     private static final int margin = 15;
     private static final int buttonHeight = 40;
     
@@ -39,8 +43,7 @@ public class TSChatGUI {
 	    @Override
 	    public void run() {
 		try {
-		    TSChatGUI window = new TSChatGUI(null);
-		    window.frame.setVisible(true);
+		    new TSChatGUI(null);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
@@ -53,8 +56,29 @@ public class TSChatGUI {
      */
     public TSChatGUI(Client client) {
 	this.client = client;
+	this.active = true;
 	initialize();
+	
+	String nick = getNewNick();
+	if (nick == null) {
+	    closeGUI();
+	    return;
+	}
+	client.sendNick(nick);
+	
 	this.frame.setVisible(true);
+    }
+    
+    /**
+     * Get a new nick from user
+     */
+    public String getNewNick() {
+	String nick = JOptionPane.showInputDialog("Gib einen Nickname an:", "");
+	
+	if (nick != null && nick.isEmpty()) {
+	    return getNewNick();
+	}
+	return nick;
     }
     
     /**
@@ -67,6 +91,7 @@ public class TSChatGUI {
 	this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.frame.getContentPane().setLayout(null);
 	this.frame.addComponentListener(new GUIListener());
+	this.frame.addWindowListener(new GUIListener());
 	
 	this.btnSendButton = new JButton("Senden");
 	this.btnSendButton.addActionListener(new GUIListener());
@@ -109,6 +134,12 @@ public class TSChatGUI {
 	return this.client;
     }
     
+    public void closeGUI() {
+	this.active = false;
+	this.frame.dispose();
+	getClient().stop();
+    }
+    
     public void sendMessage(String message) {
 	getClient().sendMessage(TSChatGUI.this.textField.getText());
 	addMessage(TSChatGUI.this.textField.getText());
@@ -119,7 +150,11 @@ public class TSChatGUI {
 	this.textArea.append(message + "\n");
     }
     
-    private class GUIListener implements ActionListener, ComponentListener, KeyListener {
+    public boolean isActive() {
+	return this.active;
+    }
+    
+    private class GUIListener implements ActionListener, ComponentListener, KeyListener, WindowListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -171,6 +206,35 @@ public class TSChatGUI {
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
+	}
+	
+	@Override
+	public void windowOpened(WindowEvent e) {
+	}
+	
+	@Override
+	public void windowClosing(WindowEvent e) {
+	    closeGUI();
+	}
+	
+	@Override
+	public void windowClosed(WindowEvent e) {
+	}
+	
+	@Override
+	public void windowIconified(WindowEvent e) {
+	}
+	
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+	}
+	
+	@Override
+	public void windowActivated(WindowEvent e) {
+	}
+	
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 	}
 	
     }
