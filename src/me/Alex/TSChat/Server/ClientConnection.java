@@ -81,7 +81,8 @@ public class ClientConnection implements Runnable {
 		}
 	    }
 	} catch (SocketException e) {
-	    System.err.println(e.getMessage());
+	    System.err.println(e.getMessage() + ": " + this.getNickName());
+	    Server.disconnect(this);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    Server.disconnect(this);
