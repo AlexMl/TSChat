@@ -61,6 +61,7 @@ public class ClientConnection implements Runnable {
 			switch (id) {
 			    case 1236:
 				this.nickName = message.split(Integer.toString(id))[1];
+				Server.broadcast(getNickName() + " ist verbunden!");
 				break;
 			    
 			    default:
