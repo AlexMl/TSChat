@@ -140,10 +140,16 @@ public class TSChatGUI {
 	getClient().stop();
     }
     
+    public void openInfoBox(String title, String message) {
+	JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     public void sendMessage(String message) {
-	getClient().sendMessage(TSChatGUI.this.textField.getText());
-	addMessage(TSChatGUI.this.textField.getText());
-	TSChatGUI.this.textField.setText("");
+	getClient().sendMessage(message);
+	if (!message.startsWith("/")) {
+	    addMessage(message);
+	}
+	this.textField.setText("");
     }
     
     public void addMessage(String message) {

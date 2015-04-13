@@ -122,6 +122,7 @@ public class Client implements Runnable {
 			
 			switch (id) {
 			    case 1200:
+				getGUI().openInfoBox("Disconnect", "Du wurdest vom Server gekickt!");
 				this.stop();
 				return;
 				
