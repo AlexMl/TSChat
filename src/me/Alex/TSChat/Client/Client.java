@@ -23,7 +23,7 @@ public class Client implements Runnable {
     
     private BufferedReader reader;
     private PrintWriter writer;
-    private Thread thread;
+    private Thread serverReader;
     
     private TSChatGUI gui;
     
@@ -61,8 +61,8 @@ public class Client implements Runnable {
 	    
 	    this.running = true;
 	    
-	    this.thread = new Thread(this);
-	    this.thread.start();
+	    this.serverReader = new Thread(this);
+	    this.serverReader.start();
 	    
 	} catch (IOException e) {
 	    e.printStackTrace();
