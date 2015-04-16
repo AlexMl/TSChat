@@ -1,18 +1,15 @@
 package me.Alex.TSChat;
 
-import me.Alex.TSChat.Client.Client;
-import me.Alex.TSChat.Server.Server;
+import me.Alex.TSChat.Client.GUI.TSChatGUI;
 
 
 public class Main {
     
     public static void main(String[] args) {
 	
-	System.out.println("start");
-	
-	Server server = new Server(8935, "localhost");
-	
-	Client client = new Client("localhost", 8935);
+	for (int i = 0; i < 10; i++) {
+	    new TSChatGUI("" + i);
+	}
 	
     }
 }
