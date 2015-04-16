@@ -131,6 +131,14 @@ public class Client implements Runnable {
 			}
 			
 		    } else {
+			while (getGUI() == null) {
+			    // check if the gui is initialized and if not let the thread wait
+			    // kinda untidy
+			    System.out.println("gui still null! Waiting 1 second");
+			    synchronized (this) {
+				this.wait(1000);
+			    }
+			}
 			getGUI().addMessage(message);
 			System.out.println("Empfangen: [" + new SimpleDateFormat("dd.MM-HH:mm:ss").format((new Date())) + "] " + message);
 		    }
@@ -144,6 +152,8 @@ public class Client implements Runnable {
 	    System.err.println(e.getMessage());
 	    stop();
 	} catch (IOException e) {
+	    e.printStackTrace();
+	} catch (InterruptedException e) {
 	    e.printStackTrace();
 	}
     }
