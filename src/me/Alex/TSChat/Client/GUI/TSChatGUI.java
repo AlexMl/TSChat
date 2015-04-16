@@ -43,12 +43,24 @@ public class TSChatGUI {
 	    @Override
 	    public void run() {
 		try {
-		    new TSChatGUI(null);
+		    new TSChatGUI();
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
 	    }
 	});
+    }
+    
+    public TSChatGUI(String title) {
+	this();
+	this.frame.setTitle("[TSChat] " + title);
+    }
+    
+    public TSChatGUI() {
+	this.active = true;
+	initialize();
+	this.frame.setTitle("[TSChat]");
+	this.frame.setVisible(true);
     }
     
     /**
@@ -66,6 +78,7 @@ public class TSChatGUI {
 	}
 	client.sendNick(nick);
 	
+	this.frame.setTitle("[TSChat] Du schreibst als " + nick + "!");
 	this.frame.setVisible(true);
     }
     
@@ -86,7 +99,7 @@ public class TSChatGUI {
      */
     private void initialize() {
 	this.frame = new JFrame();
-	this.frame.setBounds(100, 100, 600, 500);
+	this.frame.setBounds(100, 100, 700, 600);
 	this.frame.setMinimumSize(new Dimension(600, 500));
 	this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.frame.getContentPane().setLayout(null);
@@ -95,14 +108,10 @@ public class TSChatGUI {
 	
 	this.btnSendButton = new JButton("Senden");
 	this.btnSendButton.addActionListener(new GUIListener());
-	// this.btnSendButton.setSize(100, buttonHeight);
-	// this.btnSendButton.setLocation((this.frame.getWidth() - (this.btnSendButton.getWidth() + margin)), (this.frame.getHeight() - (this.btnSendButton.getHeight() + margin)));
 	this.frame.getContentPane().add(this.btnSendButton);
 	
 	this.textField = new JTextField();
 	this.textField.addKeyListener(new GUIListener());
-	// this.textField.setSize(this.frame.getWidth() - (this.btnSendButton.getWidth() + 3 * margin), buttonHeight);
-	// this.textField.setLocation(margin, (this.frame.getHeight() - (this.textField.getHeight() + margin)));
 	this.frame.getContentPane().add(this.textField);
 	
 	/*	JList<String> list = new JList<String>();
@@ -112,8 +121,6 @@ public class TSChatGUI {
 	
 	this.textArea = new JTextArea();
 	this.textArea.setEditable(false);
-	// this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
-	// this.textArea.setLocation(margin, margin);
 	this.frame.getContentPane().add(this.textArea);
 	
 	resize();
@@ -128,6 +135,12 @@ public class TSChatGUI {
 	
 	this.textArea.setSize(this.frame.getWidth() - 2 * margin, this.frame.getHeight() - (buttonHeight + 3 * margin));
 	this.textArea.setLocation(margin, margin);
+	
+	System.out.println("Frame: " + this.frame.getTitle() + " " + this.frame.getSize());
+	// System.out.println("Button: " + this.btnSendButton.getSize());
+	// System.out.println("textField: " + this.textField.getSize());
+	// System.out.println("BL: " + this.btnSendButton.getLocation());
+	// System.out.println("TFL: " + this.textField.getLocation());
     }
     
     private Client getClient() {
@@ -172,10 +185,8 @@ public class TSChatGUI {
 		    } else {
 			JOptionPane.showMessageDialog(null, "Du kannst keine leeren Nachrichten senden!");
 		    }
-		    
 		}
 	    }
-	    
 	}
 	
 	@Override
